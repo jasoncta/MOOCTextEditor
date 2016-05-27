@@ -29,8 +29,6 @@ public class AutoSpellingTextArea extends StyledTextArea<Boolean> {
 
 	private static final int NUM_COMPLETIONS = 6;
 	private static final int NUM_SUGGESTIONS = 6;
-	
-	// comment
 
 	// track auto complete and spelling suggestion states
 	private boolean autoCompleteOn = false;

@@ -53,7 +53,27 @@ public abstract class Document {
 		// TODO: Implement this method so that you can call it from the 
 	    // getNumSyllables method in BasicDocument (module 1) and 
 	    // EfficientDocument (module 2).
-	    return 0;
+		
+		int count = 0;
+		char[] charArr = word.toCharArray();
+		String vowels = "aeiouyAEIOUY";
+		boolean flag = true;
+		
+		for (int i = 0; i < charArr.length; i++) {
+			char ch = charArr[i];
+			if (i == charArr.length - 1 && ch == 'e' && flag && count > 0) {
+				count --;
+			}
+			if (flag && vowels.indexOf(ch) >= 0) {
+				count++;
+				flag = false;
+			}
+			else if (vowels.indexOf(ch) < 0) {
+				flag = true;
+			}
+		}
+		
+	    return count;
 	}
 	
 	/** A method for testing

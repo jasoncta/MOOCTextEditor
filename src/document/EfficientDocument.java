@@ -47,7 +47,7 @@ public class EfficientDocument extends Document {
 		// TODO: Finish this method. Remember the countSyllables method from
 		// Document. That will come in handy here.
 
-		System.out.println("------Tokens: ------" + tokens);
+		//System.out.println("------Tokens: ------" + tokens);
 		for (String tok : tokens) {
 			if (isWord(tok)) {
 				numWords++;

@@ -3,6 +3,7 @@ package document;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
+import java.util.concurrent.TimeUnit;
 
 /** A class for timing the EfficientDocument and BasicDocument classes
  * 
@@ -58,7 +59,28 @@ public class DocumentBenchmarking {
 			 * 6. Print out the time it took to complete the loop in step 5 
 			 *      (on the same line as the first print statement) followed by a newline (\n) 
 			 */  
+			 System.out.print(numToCheck + "\t");
+			 String testStr = getStringFromFile(textfile, numToCheck);
 			 
+			 // BasicDocument
+			 long startTime = System.nanoTime();
+			 for (int i = 0; i < trials; i++) {
+			 BasicDocument bDoc = new BasicDocument(testStr);
+			 bDoc.getFleschScore();
+			 }
+			 long estimatedTime = System.nanoTime() - startTime;
+			 long timeInMs = TimeUnit.MILLISECONDS.convert(estimatedTime, TimeUnit.NANOSECONDS);
+			 System.out.print(timeInMs + "\t");
+			 
+			 //EfficientDocument
+			 startTime = System.nanoTime();
+			 for (int i = 0; i < trials; i++) {
+				 EfficientDocument eDoc = new EfficientDocument(testStr);
+				 eDoc.getFleschScore();
+			 }
+			 estimatedTime = System.nanoTime() - startTime;
+			 timeInMs = TimeUnit.MILLISECONDS.convert(estimatedTime, TimeUnit.NANOSECONDS);
+			 System.out.print(timeInMs + "\n");
 		}
 	
 	}

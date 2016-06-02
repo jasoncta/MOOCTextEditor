@@ -183,6 +183,13 @@ public class MyLinkedListTester {
 		longerList.add(92);
 		assertEquals("Check last added element", (Integer)92, longerList.get(longerList.size()-1));
 
+		emptyList.add(4);
+		assertEquals("Check adding to empty list", (Integer)4, emptyList.get(0));
+
+		shortList.add("C");
+		assertEquals("Check adding to list of strings", "C", shortList.get(2));
+		assertEquals("Check adding to list of strings", "B", shortList.get(1));
+		assertEquals("Check adding to list of strings", "A", shortList.get(0));
 	}
 
 
@@ -191,13 +198,17 @@ public class MyLinkedListTester {
 	public void testSize()
 	{
 		// TODO: implement this test
-		
+
 		// Check for different list sizes
 		assertEquals("Check size is correct", 3, list1.size());
 		assertEquals("Check size is correct", 10, longerList.size());
+
+		// Test for empty list
 		assertEquals("Check size is correct", 0, emptyList.size());
+
+		// Test for different element type
 		assertEquals("Check size is correct", 2, shortList.size());
-		
+
 	}
 
 
@@ -210,6 +221,49 @@ public class MyLinkedListTester {
 	public void testAddAtIndex()
 	{
 		// TODO: implement this test
+		try {
+			emptyList.add(1, 87);
+			fail("Check out of bounds");
+		}
+		catch (IndexOutOfBoundsException e) {
+
+		}
+
+		try {
+			list1.add(-1, 8);
+			fail("Check out of bounds");
+		}
+		catch (IndexOutOfBoundsException e) {
+
+		}
+
+		try {
+			longerList.add(11, 8);
+			fail("Check out of bounds");
+		}
+		catch (IndexOutOfBoundsException e) {
+
+		}
+
+		// Test add for long list in middle
+		longerList.add(5, 22);
+		assertEquals("Add: Check element is 4", (Integer)4, longerList.get(4));
+		assertEquals("Add: Check element is 5", (Integer)22, longerList.get(5));
+		assertEquals("Add: Check element is 22", (Integer)5, longerList.get(6));
+		assertEquals(11, longerList.size());
+
+		// Test add for long list at front
+		longerList.add(0, 33);
+		assertEquals("Add: Check element is 33", (Integer)33, longerList.get(0));
+		assertEquals("Add: Check element is 0", (Integer)0, longerList.get(1));
+		assertEquals("Add: Check element is 1", (Integer)1, longerList.get(2));
+		assertEquals(12, longerList.size());
+
+		// Test add for shortList at end
+		shortList.add(2, "C");
+		assertEquals("Add: Check element is B", "B", shortList.get(1));
+		assertEquals("Add: Check element is C", "C", shortList.get(2));
+		assertEquals(3, shortList.size());
 
 	}
 

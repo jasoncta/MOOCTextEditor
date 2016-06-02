@@ -272,7 +272,40 @@ public class MyLinkedListTester {
 	public void testSet()
 	{
 		// TODO: implement this test
+		shortList.set(0, "D");
+		assertEquals("Set: Check element is D", "D", shortList.get(0));
+		assertEquals("Set: Check element is B", "B", shortList.get(1));
+		shortList.set(1, "G");
+		assertEquals("Set: Check element is G", "G", shortList.get(1));
+		assertEquals("Set: Check element is D", "D", shortList.get(0));
+		
+		try {
+			shortList.set(-1, "D");
+			fail("Check out of bounds");
+		}
+		catch (IndexOutOfBoundsException e) {
 
+		}
+		
+		try {
+			shortList.set(3, "D");
+			fail("Check out of bounds");
+		}
+		catch (IndexOutOfBoundsException e) {
+
+		}
+		
+		assertEquals("Set: Check element is 0", (Integer)0, longerList.get(0));
+		assertEquals("Set: Check element is 1", (Integer)1, longerList.get(1));
+		assertEquals("Set: Check element is 2", (Integer)2 , longerList.get(2));
+		
+		longerList.set(0, 33);
+		assertEquals("Set: Check element is 33", (Integer)33, longerList.get(0));
+		assertEquals("Set: Check element is 1", (Integer)1, longerList.get(1));
+		assertEquals("Set: Check element is 2", (Integer)2 , longerList.get(2));
+		assertEquals(10, longerList.size());
+
+		
 	}
 
 

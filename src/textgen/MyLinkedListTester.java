@@ -178,6 +178,10 @@ public class MyLinkedListTester {
 	public void testAddEnd()
 	{
 		// TODO: implement this test
+		longerList.add(44);
+		assertEquals("Check last added element", (Integer)44, longerList.get(longerList.size()-1));
+		longerList.add(92);
+		assertEquals("Check last added element", (Integer)92, longerList.get(longerList.size()-1));
 
 	}
 
@@ -187,6 +191,13 @@ public class MyLinkedListTester {
 	public void testSize()
 	{
 		// TODO: implement this test
+		
+		// Check for different list sizes
+		assertEquals("Check size is correct", 3, list1.size());
+		assertEquals("Check size is correct", 10, longerList.size());
+		assertEquals("Check size is correct", 0, emptyList.size());
+		assertEquals("Check size is correct", 2, shortList.size());
+		
 	}
 
 

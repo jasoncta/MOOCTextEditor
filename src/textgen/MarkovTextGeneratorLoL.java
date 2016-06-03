@@ -1,9 +1,13 @@
 package textgen;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Random;
+import java.util.regex.Pattern;
+
+import org.hamcrest.Matcher;
 
 /** 
  * An implementation of the MTG interface that uses a list of lists.
@@ -20,6 +24,8 @@ public class MarkovTextGeneratorLoL implements MarkovTextGenerator {
 	// The random number generator
 	private Random rnGenerator;
 	
+	private boolean nodeInList = false;
+	
 	public MarkovTextGeneratorLoL(Random generator)
 	{
 		wordList = new LinkedList<ListNode>();
@@ -33,8 +39,58 @@ public class MarkovTextGeneratorLoL implements MarkovTextGenerator {
 	public void train(String sourceText)
 	{
 		// TODO: Implement this method
+		List<String> tokens = getTokens("[a-zA-Z]+", sourceText);
+		starter = tokens.get(0);
+		String prevWord = starter;
+		//ListNode ln = new ListNode(prevWord);
+		
+		for (int i = 1; i < tokens.size(); i++) {
+			
+			for (ListNode ln: wordList) {
+				if (ln.getWord().equals(prevWord)) {
+					nodeInList = true;
+					ln.addNextWord(tokens.get(0));
+				}
+				
+				else {
+					nodeInList = false;
+				}
+			}
+			
+			if (nodeInList == false) {
+				ListNode addedNode = new ListNode(prevWord);
+				wordList.add(addedNode);
+				addedNode.addNextWord(tokens.get(i));
+				
+			}
+			
+			prevWord = tokens.get(i);
+			
+		}
 	}
 	
+	private List<String> getTokens(String pattern, String text) {
+		ArrayList<String> tokens = new ArrayList<String>();
+		Pattern tokSpiltter = Pattern.compile(pattern);
+		java.util.regex.Matcher m = tokSpiltter.matcher(text);
+		
+		while (m.find()) {
+			tokens.add(m.group());
+		}
+		return tokens;
+	}
+	
+	private ListNode findNode(String text) {
+		for (ListNode ln: wordList) {
+			if (ln.getWord().equals(text)) {
+				nodeInList = true;
+				return ln;
+			}
+			
+		}
+		nodeInList = false;
+		return new ListNode(text);
+	}
 	/** 
 	 * Generate the number of words requested.
 	 */

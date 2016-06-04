@@ -42,31 +42,32 @@ public class MarkovTextGeneratorLoL implements MarkovTextGenerator {
 		List<String> tokens = getTokens("[a-zA-Z]+", sourceText);
 		starter = tokens.get(0);
 		String prevWord = starter;
-		//ListNode ln = new ListNode(prevWord);
 		
 		for (int i = 1; i < tokens.size(); i++) {
-			
+			nodeInList = false;
 			for (ListNode ln: wordList) {
 				if (ln.getWord().equals(prevWord)) {
 					nodeInList = true;
-					ln.addNextWord(tokens.get(0));
+					ln.addNextWord(tokens.get(i));
 				}
 				
-				else {
-					nodeInList = false;
-				}
 			}
 			
 			if (nodeInList == false) {
 				ListNode addedNode = new ListNode(prevWord);
-				wordList.add(addedNode);
+				//wordList.add(addedNode);
 				addedNode.addNextWord(tokens.get(i));
+				wordList.add(addedNode);
 				
 			}
 			
 			prevWord = tokens.get(i);
 			
 		}
+		
+		ListNode lastNode = new ListNode(tokens.get(tokens.size()-1));
+		lastNode.addNextWord(starter);
+		wordList.add(lastNode);
 	}
 	
 	private List<String> getTokens(String pattern, String text) {
@@ -80,17 +81,7 @@ public class MarkovTextGeneratorLoL implements MarkovTextGenerator {
 		return tokens;
 	}
 	
-	private ListNode findNode(String text) {
-		for (ListNode ln: wordList) {
-			if (ln.getWord().equals(text)) {
-				nodeInList = true;
-				return ln;
-			}
-			
-		}
-		nodeInList = false;
-		return new ListNode(text);
-	}
+	
 	/** 
 	 * Generate the number of words requested.
 	 */
@@ -108,6 +99,7 @@ public class MarkovTextGeneratorLoL implements MarkovTextGenerator {
 		String toReturn = "";
 		for (ListNode n : wordList)
 		{
+			//System.out.print(n.getWord() + "---");
 			toReturn += n.toString();
 		}
 		return toReturn;

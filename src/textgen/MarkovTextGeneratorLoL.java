@@ -5,9 +5,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Random;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.hamcrest.Matcher;
 
 /** 
  * An implementation of the MTG interface that uses a list of lists.
@@ -39,6 +38,9 @@ public class MarkovTextGeneratorLoL implements MarkovTextGenerator {
 	public void train(String sourceText)
 	{
 		// TODO: Implement this method
+		if (sourceText == "") {
+			return;
+		}
 		List<String> tokens = getTokens("[a-zA-Z]+", sourceText);
 		starter = tokens.get(0);
 		String prevWord = starter;
@@ -72,7 +74,7 @@ public class MarkovTextGeneratorLoL implements MarkovTextGenerator {
 	private List<String> getTokens(String pattern, String text) {
 		ArrayList<String> tokens = new ArrayList<String>();
 		Pattern tokSpiltter = Pattern.compile(pattern);
-		java.util.regex.Matcher m = tokSpiltter.matcher(text);
+		Matcher m = tokSpiltter.matcher(text);
 		
 		while (m.find()) {
 			tokens.add(m.group());
@@ -87,6 +89,14 @@ public class MarkovTextGeneratorLoL implements MarkovTextGenerator {
 	@Override
 	public String generateText(int numWords) {
 	    // TODO: Implement this method
+		
+		if (wordList.isEmpty()) {
+			return "";
+		}
+		
+		if (numWords == 0) {
+			return "";
+		}
 		String currWord = starter;
 		String word = "";
 		String output = "";
@@ -125,6 +135,8 @@ public class MarkovTextGeneratorLoL implements MarkovTextGenerator {
 	public void retrain(String sourceText)
 	{
 		// TODO: Implement this method.
+		wordList.clear();
+		train(sourceText);
 	}
 	
 	// TODO: Add any private helper methods you need here.

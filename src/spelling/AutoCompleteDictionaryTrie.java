@@ -1,7 +1,9 @@
 package spelling;
 
 import java.util.List;
+import java.util.Queue;
 import java.util.Set;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -107,9 +109,38 @@ public class AutoCompleteDictionaryTrie implements  Dictionary, AutoComplete {
     	 //       Add all of its child nodes to the back of the queue
     	 // Return the list of completions
     	 
+    	 TrieNode curr = root;
+    	 char [] stem = prefix.toLowerCase().toCharArray();
+    	 List<String> completions = new ArrayList<String>();
+    	 
+    	 for (int i = 0; i < stem.length; i++) {
+    		 if (curr.getChild(stem[i]) == null) {
+    			 return completions;
+    		 }
+    		 else {
+    			 curr = curr.getChild(stem[i]);
+    		 }
+    		 
+    	 }
+    	 
+    	 Queue<TrieNode> trieQueue = new LinkedList<TrieNode>();
+    	 trieQueue.add(curr);
+    	 
+    	 while(completions.size() < numCompletions && !trieQueue.isEmpty()) {
+    		 TrieNode addToComp = trieQueue.remove();
+    		 if (addToComp.endsWord()) {
+    			 completions.add(addToComp.getText());
+    		 }
+    		 
+    		 TrieNode next = null;
+    	 		for (Character c : addToComp.getValidNextCharacters()) {
+    	 			next = addToComp.getChild(c);
+    	 			trieQueue.add(next);
+    	 		}
+    	 }
     	 
     	 
-         return null;
+         return completions;
      }
 
  	// For debugging

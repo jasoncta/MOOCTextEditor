@@ -143,6 +143,21 @@ public class NearbyWords implements SpellingSuggest {
 					
 		// TODO: Implement the remainder of this method, see assignment for algorithm
 		
+		while(!queue.isEmpty() && numSuggestions > 0) {
+			String curr = queue.remove(0);
+			List<String> listOfNeighbors = distanceOne(curr, true);
+			for (int i = 0; i < listOfNeighbors.size(); i++) {
+				if (!visited.contains(listOfNeighbors.get(i))) {
+					visited.add(listOfNeighbors.get(i));
+					queue.add(listOfNeighbors.get(i));
+					if (dict.isWord(listOfNeighbors.get(i))) {
+						retList.add(listOfNeighbors.get(i));
+					}
+				}
+			}
+			numSuggestions--;
+		}
+		
 		return retList;
 
 	}	
@@ -161,17 +176,18 @@ public class NearbyWords implements SpellingSuggest {
 	   word = "tailo";
 	   List<String> suggest = w.suggestions(word, 10);
 	   System.out.println("Spelling Suggestions for \""+word+"\" are:");
+	   System.out.println();
 	   System.out.println(suggest);
 	   
 	   NearbyWords ww = new NearbyWords(d);
 	   List<String> ll = new ArrayList<String>();
 	   String testWord = "a";
 	   //ww.subsitution(testWord, ll, true);
-	   System.out.println(ll+"\n");
+	   //System.out.println(ll+"\n");
 	   ww.insertions(testWord, ll, true);
-	   System.out.println(ll+"\n");
+	   //System.out.println(ll+"\n");
 	   //ww.deletions(testWord, ll, true);
-	   System.out.println(ll+"\n");
+	   //System.out.println(ll+"\n");
 	   
    }
 
